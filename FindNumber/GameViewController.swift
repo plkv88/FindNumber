@@ -9,7 +9,6 @@ import UIKit
 
 class GameViewController: UIViewController {
 
-    
     @IBOutlet var buttons: [UIButton]!
     
     @IBOutlet weak var nextDigit: UILabel!
@@ -35,15 +34,12 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupScreen() 
     }
 
     @IBAction func pressButton(_ sender: UIButton) {
         guard let buttonIndex = buttons.firstIndex(of: sender) else {return}
-        
         game.check(index: buttonIndex)
-        
         updateUI()
     }
     
@@ -60,7 +56,6 @@ class GameViewController: UIViewController {
             buttons[index].alpha = 1
             buttons[index].isEnabled = true
         }
-        
         nextDigit.text = game.nextItem?.title
     }
     
@@ -79,7 +74,6 @@ class GameViewController: UIViewController {
             }
         }
         nextDigit.text = game.nextItem?.title
-        
         updateInfoGame(with: game.status)
     }
     
@@ -109,9 +103,7 @@ class GameViewController: UIViewController {
     private func showAlert(){
         let alert = UIAlertController(title: "Congratulations!", message: "New record!", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        
         alert.addAction(okAction)
-        
         present(alert, animated: true, completion: nil)
     }
 }
