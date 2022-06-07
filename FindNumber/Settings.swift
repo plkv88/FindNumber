@@ -33,14 +33,12 @@ class Settings{
                 }
                 return defaultSettings
             }
-            
         }
         
         set{
            if let data = try? PropertyListEncoder().encode(newValue){
                 UserDefaults.standard.setValue(data, forKey: KeysUserDefaults.settingsGame)
             }
-            
         }
     }
     
