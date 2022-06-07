@@ -321,7 +321,7 @@
             </objects>
             <point key="canvasLocation" x="100" y="102"/>
         </scene>
-        <!--Select Time View Controller-->
+        <!--Time for game, sec.-->
         <scene sceneID="Tn2-5q-VTF">
             <objects>
                 <viewController id="0FL-9c-QQ5" customClass="SelectTimeViewController" customModule="FindNumber" customModuleProvider="target" sceneMemberID="viewController">
@@ -362,7 +362,7 @@
                             <constraint firstItem="GfU-l2-kZa" firstAttribute="bottom" secondItem="Nu0-sE-EX0" secondAttribute="bottom" id="ycQ-fP-2Ec"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="nY8-x4-MaG"/>
+                    <navigationItem key="navigationItem" title="Time for game, sec." id="nY8-x4-MaG"/>
                     <connections>
                         <outlet property="tableView" destination="Nu0-sE-EX0" id="v3B-Vz-kC8"/>
                     </connections>
