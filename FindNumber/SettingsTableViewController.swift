@@ -14,7 +14,6 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -22,7 +21,7 @@ class SettingsTableViewController: UITableViewController {
         loadSettings()
     }
     
-    func loadSettings(){
+    func loadSettings() {
         timeForGameLabel.text = "\(Settings.shared.currentSettings.timeForGame) sec."
         switchTimer.isOn = Settings.shared.currentSettings.timerState
     }
@@ -30,7 +29,7 @@ class SettingsTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case "selectTimeVC":
-            if let vc = segue.destination as? SelectTimeViewController{
+            if let vc = segue.destination as? SelectTimeViewController {
                 vc.data = [10,20,30,40,50,60,70,80,90,100,110,120]
             }
         default:
@@ -44,8 +43,6 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func changeTimerState(_ sender: UISwitch) {
-        
         Settings.shared.currentSettings.timerState = sender.isOn
     }
-    
 }

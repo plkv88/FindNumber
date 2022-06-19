@@ -7,38 +7,38 @@
 
 import Foundation
 
-enum StatusGame{
+enum StatusGame {
     case start
     case win
     case lose
 }
 
-class Game{
+class Game {
     
-    struct Item{
-        var title:String
-        var isFound:Bool = false
-        var isError:Bool = false
+    struct Item {
+        var title: String
+        var isFound: Bool = false
+        var isError: Bool = false
     }
     
     private let data = Array(1...99)
     
-    var items:[Item] = []
+    var items: [Item] = []
     
-    private var countItems:Int
+    private var countItems: Int
     
-    var nextItem:Item?
+    var nextItem: Item?
     
     var isNewRecord = false
     
-    var status:StatusGame = .start{
-        didSet{
-            if status != .start{
-                if status == .win{
+    var status: StatusGame = .start{
+        didSet {
+            if status != .start {
+                if status == .win {
                     let newRecord = timeToGame - secondsGame
                     let record = UserDefaults.standard.integer(forKey: KeysUserDefaults.recordGame)
                     
-                    if record == 0 || newRecord < record{
+                    if record == 0 || newRecord < record {
                         UserDefaults.standard.setValue(newRecord, forKey: KeysUserDefaults.recordGame)
                         isNewRecord = true
                     }
@@ -48,22 +48,22 @@ class Game{
         }
     }
     
-    private var timeToGame:Int
+    private var timeToGame: Int
     
-    private var secondsGame:Int{
-        didSet{
-            if secondsGame == 0{
+    private var secondsGame: Int {
+        didSet {
+            if secondsGame == 0 {
                 status = .lose
             }
             updateTimer(status, secondsGame)
         }
     }
     
-    private var timer:Timer?
+    private var timer: Timer?
     
-    private var updateTimer:((StatusGame,Int)->Void)
+    private var updateTimer: ((StatusGame,Int) -> Void)
     
-    init(countItems:Int, updateTimer:@escaping (_ status:StatusGame,_ seconds:Int)->Void){
+    init(countItems: Int, updateTimer: @escaping (_ status: StatusGame, _ seconds: Int) -> Void) {
         self.countItems = countItems
         self.timeToGame = Settings.shared.currentSettings.timeForGame
         self.secondsGame = self.timeToGame
@@ -71,11 +71,11 @@ class Game{
         setupGame()
     }
     
-    private func setupGame(){
+    private func setupGame() {
         isNewRecord = false
         var digits = data.shuffled()
         items.removeAll()
-        while items.count < countItems{
+        while items.count < countItems {
             let item = Item(title: String(digits.removeFirst()))
             items.append(item)
         }
@@ -83,45 +83,45 @@ class Game{
         nextItem = items.shuffled().first
         
         updateTimer(status, secondsGame)
-        if Settings.shared.currentSettings.timerState{
+        if Settings.shared.currentSettings.timerState {
             timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [weak self] (_) in
                 self?.secondsGame -= 1
             })
         }
     }
     
-    func newGame(){
+    func newGame() {
         status = .start
         self.secondsGame = self.timeToGame
         setupGame()
     }
     
-    func check(index:Int){
-        guard status == .start else {return}
-        if items[index].title == nextItem?.title{
+    func check(index: Int) {
+        guard status == .start else { return }
+        if items[index].title == nextItem?.title {
             items[index].isFound = true
             nextItem = items.shuffled().first(where: {(item) -> Bool in
                 item.isFound == false
             })
-        }else{
+        } else {
             items[index].isError = true
         }
         
-        if nextItem == nil{
+        if nextItem == nil {
             status = .win
         }
     }
         
-    func stopGame(){
+    func stopGame() {
         timer?.invalidate()
     }
 }
 
-extension Int{
-    func secondsToString()->String{
+extension Int {
+    func secondsToString() -> String {
         let minutes = self / 60
         let seconds = self % 60
         
-        return String(format: "%d:%02d",minutes,seconds)
+        return String(format: "%d:%02d", minutes, seconds)
     }
 }

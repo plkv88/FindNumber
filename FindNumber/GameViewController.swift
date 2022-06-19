@@ -16,12 +16,12 @@ class GameViewController: UIViewController {
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
     
-    lazy var game = Game(countItems: buttons.count){ [weak self] (status, time) in
-        guard let self = self else {return}
-        if Settings.shared.currentSettings.timerState{
+    lazy var game = Game(countItems: buttons.count) { [weak self] (status, time) in
+        guard let self = self else { return }
+        if Settings.shared.currentSettings.timerState {
             self.timerLabel.text = time.secondsToString()
         }
-        else{
+        else {
             self.timerLabel.text = ""
         }
         self.updateInfoGame(with: status)
@@ -38,7 +38,7 @@ class GameViewController: UIViewController {
     }
 
     @IBAction func pressButton(_ sender: UIButton) {
-        guard let buttonIndex = buttons.firstIndex(of: sender) else {return}
+        guard let buttonIndex = buttons.firstIndex(of: sender) else { return }
         game.check(index: buttonIndex)
         updateUI()
     }
@@ -50,8 +50,8 @@ class GameViewController: UIViewController {
         setupScreen()
     }
     
-    private func setupScreen(){
-        for index in game.items.indices{
+    private func setupScreen() {
+        for index in game.items.indices {
             buttons[index].setTitle(game.items[index].title, for: .normal)
             buttons[index].alpha = 1
             buttons[index].isEnabled = true
@@ -59,12 +59,12 @@ class GameViewController: UIViewController {
         nextDigit.text = game.nextItem?.title
     }
     
-    private func updateUI(){
-        for index in game.items.indices{
+    private func updateUI() {
+        for index in game.items.indices {
             buttons[index].alpha = game.items[index].isFound ? 0 : 1
             buttons[index].isEnabled = !game.items[index].isFound
             
-            if game.items[index].isError{
+            if game.items[index].isError {
                 UIView.animate(withDuration: 0.3) { [weak self] in
                     self?.buttons[index].backgroundColor = .red
                 } completion: { [weak self] (_) in
@@ -77,7 +77,7 @@ class GameViewController: UIViewController {
         updateInfoGame(with: game.status)
     }
     
-    private func updateInfoGame(with status:StatusGame){
+    private func updateInfoGame(with status: StatusGame) {
         switch status {
         case .start:
             statusLabel.text = "Game begin!"
@@ -89,7 +89,7 @@ class GameViewController: UIViewController {
             statusLabel.textColor = .green
             newGameButton.alpha = 1
             newGameButton.isEnabled = true
-            if game.isNewRecord{
+            if game.isNewRecord {
                 showAlert()
             }
         case .lose:
@@ -100,7 +100,7 @@ class GameViewController: UIViewController {
         }
     }
     
-    private func showAlert(){
+    private func showAlert() {
         let alert = UIAlertController(title: "Congratulations!", message: "New record!", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(okAction)

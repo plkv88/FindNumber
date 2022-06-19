@@ -9,24 +9,20 @@ import UIKit
 
 class SelectTimeViewController: UIViewController{
 
-    var data:[Int] = []
+    var data: [Int] = []
     
     @IBOutlet weak var tableView: UITableView!{
-        didSet{
+        didSet {
             tableView?.dataSource = self
             tableView?.delegate = self
         }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
     }
-    
-
 }
 
-extension SelectTimeViewController:UITableViewDataSource,UITableViewDelegate{
+extension SelectTimeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }
